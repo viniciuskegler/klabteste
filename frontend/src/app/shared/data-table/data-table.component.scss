@@ -1,0 +1,31 @@
+table {
+  width: 100%;
+}
+
+th {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+tr {
+  height: 45px;
+}
+
+td {
+  text-align: center;
+}
+
+.mat-elevation-z8 {
+  overflow-x: auto;
+}
+
+.table-filtros-header {
+    display: flex;
+    align-items: center;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    span {
+        font-size: 20px;
+    }
+}
+

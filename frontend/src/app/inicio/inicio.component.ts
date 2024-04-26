@@ -1,12 +1,9 @@
-import {Component, inject} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-
+import { Component, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 @Component({
-  templateUrl: "inicio.component.html"
+  templateUrl: 'inicio.component.html',
+  styleUrl: './inicio.component.scss',
 })
 export class InicioComponent {
-  httpClient = inject(HttpClient)
-  ngOnInit() {
-    this.httpClient.get("produtos").subscribe((value) => console.log(value))
-  }
+  httpClient = inject(HttpClient);
 }

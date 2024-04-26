@@ -1,0 +1,25 @@
+.app-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-content {
+  height: 100%;
+  border-radius: 3px;
+  padding: 6px;
+}
+
+.app-header {
+  min-height: 60px;
+  line-height: 1;
+  background-color: black;
+  color: white;
+  a {
+    margin-right: 12px;
+  }
+}
+
+.home-redirect-button:hover {
+  cursor: pointer;
+}

@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {HttpserviceModule} from "./modules/httpservice.module";
+import { HttpserviceModule } from './modules/httpservice.module';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HttpserviceModule],
+  imports: [RouterOutlet, HttpserviceModule, MatToolbarModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'Teste KLAB';
 }

@@ -1,1 +1,13 @@
-<div>TESTE</div>
+<div>
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title><span>Produtos Cadastrados</span></mat-panel-title>
+      </mat-expansion-panel-header>
+      <data-table
+        [columns]="produtoColumns"
+        [data]="produtosData"
+      ></data-table>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
