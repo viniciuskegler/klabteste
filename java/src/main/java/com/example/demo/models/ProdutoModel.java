@@ -1,7 +1,11 @@
 package com.example.demo.models;
 
+import com.example.demo.exceptions.webservice.BadRequestException;
+import com.example.demo.exceptions.webservice.InternalServerErrorException;
 import com.example.demo.interfaces.Produtos;
 import com.example.demo.services.NativeScriptService;
+import com.example.demo.utils.database.DbConnHelper;
+import jakarta.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,28 +27,22 @@ import java.util.Map;
 @Service
 public class ProdutoModel implements Produtos {
 
+
     @Autowired
     private NativeScriptService nativeScriptService;
 
-    public Object getAllProducts() throws SQLException {
-        Connection con = null;
+    @Autowired
+    private DbConnHelper connectionHelper;
+
+    public Object getAllProducts() throws RuntimeException {
+        List<Map<String, Object>> listMap = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM produtos;");
         PreparedStatement pstm = null;
-
         try {
-            List<Map<String, Object>> listMap = new ArrayList<>();
-
-            //Construção da string SQL
-            StringBuilder sql = new StringBuilder();
-            sql.append("SELECT * FROM produtos;");
-
-            //Abertura da conexão com o banco e abertura da PreparedStatement para comunicação
-            con = nativeScriptService.getConectionDb();
-            pstm = nativeScriptService.getPreparedStatementDb(sql.toString(), con);
-
-            //Conversão e retorno das informações
+            pstm = connectionHelper.getPreparedStatement(nativeScriptService, sql.toString());
             ResultSet rs = pstm.executeQuery();
-            while (rs.next()){
-                Map<String,Object> map = new HashMap<>();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
                 map.put("id", rs.getObject("id"));
                 map.put("nome", rs.getObject("nome"));
                 map.put("quantidades", rs.getObject("quantidades"));
@@ -52,48 +50,40 @@ public class ProdutoModel implements Produtos {
                 map.put("preco", rs.getObject("preco"));
                 listMap.add(map);
             }
+            rs.close();
             return listMap;
-        } catch (SQLException e) {
-            System.out.println("Erro ao consultar produtos: " + e.getMessage());
-            e.printStackTrace();
-            throw new SQLException("Erro ao consultar produtos no banco de dados.", e.getMessage());
+        } catch (RuntimeException | SQLException e) {
+            throw new InternalServerErrorException("Erro ao consultar produtos no banco de dados: " + e.getMessage());
         } finally {
-            //Fechamento das conexões
-            if(con != null){
-                con.close();
-            }
-            if(pstm != null) {
-                pstm.close();
-            }
+            connectionHelper.closeCon(pstm);
         }
     }
 
-    public void insertProduct(Map<String, Object> product) throws SQLException {
+    public void insertProduct(Map<String, Object> product) throws RuntimeException {
         String sqlInsertProdutos = "INSERT INTO PRODUTOS(NOME, QUANTIDADES, DEFEITOS, PRECO) VALUES (?, ?, ?, ?)";
-        Connection con = null;
         PreparedStatement pstm = null;
+
+        String nome = (String) product.get("nome");
+        Integer quantidades = (Integer) product.get("quantidades");
+        Integer defeitos = (Integer) product.get("defeitos");
+        Double preco = (Double) product.get("preco");
+        BigDecimal precoConvertido = preco != null ? BigDecimal.valueOf(preco) : BigDecimal.ZERO;
+
+        //Não abre a conexão se o payload é invalido.
+        if (nome == null || quantidades == null | preco == null) {
+            throw new BadRequestException("Invalid payload");
+        }
         try {
-            con = nativeScriptService.getConectionDb();
-            pstm = nativeScriptService.getPreparedStatementDb(sqlInsertProdutos, con);
-
-            pstm.setString(1, (String) product.get("nome"));
-            pstm.setInt(2, (Integer) product.get("quantidades"));
-            pstm.setInt(3, (Integer) product.get("defeitos"));
-            //Casta pra double e depois cria o bigdecimal
-            pstm.setBigDecimal(4, BigDecimal.valueOf((Double) product.get("preco")));
+            pstm = connectionHelper.getPreparedStatement(nativeScriptService, sqlInsertProdutos);
+            pstm.setString(1, nome);
+            pstm.setInt(2, quantidades);
+            pstm.setInt(3, defeitos);
+            pstm.setBigDecimal(4, precoConvertido);
             pstm.executeUpdate();
-
-        } catch (Exception e) {
-            System.out.println("Erro ao inserir produto: " + e.getMessage());
-            e.printStackTrace();
-            throw new SQLException("Erro ao inserir produto no banco de dados.", e.getMessage());
+        } catch (RuntimeException | SQLException e) {
+            throw new InternalServerErrorException("Erro ao inserir produto no banco de dados: " + e.getMessage());
         } finally {
-            if(con != null){
-                con.close();
-            }
-            if(pstm != null) {
-                pstm.close();
-            }
+            connectionHelper.closeCon(pstm);
         }
     }
 

@@ -1,0 +1,61 @@
+<div class="table-filtros-container">
+  <form [formGroup]="form">
+    <ng-container *ngFor="let filtro of filtros">
+      <div [ngSwitch]="filtro.tipoFiltro">
+        <div class="filtro-container" *ngSwitchCase="'igual'">
+          <span class="filtro-label">{{ filtro.label }}</span>
+          <div class="filtro-igual">
+            <mat-form-field appearance="outline" class="outline-input">
+              <input matInput [placeholder]="filtro.label" [formControlName]="filtro.nome" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="filtro-container" *ngSwitchCase="'intervalo'">
+          <span class="filtro-label">{{ filtro.label }}</span>
+          <div class="filtro-intervalo">
+            <div class="filtro-input">
+              <mat-form-field appearance="outline" class="outline-input">
+                <mat-label>Min</mat-label>
+                <input type="number" min="0" matInput [formControlName]="filtro.nome + 'Min'"/>
+              </mat-form-field>
+            </div>
+            <div class="filtro-input">
+              <mat-form-field appearance="outline" class="outline-input">
+                <mat-label>Max</mat-label>
+                <input type="number" min="0" matInput [formControlName]="filtro.nome + 'Max'"/>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="filtro-container" *ngSwitchCase="'maior'">
+          <span class="filtro-label">{{ filtro.label }}</span>
+          <div class="filtro-intervalo">
+            <div class="filtro-input">
+              <mat-form-field appearance="outline" class="outline-input">
+                <mat-label>Maior que</mat-label>
+                <input type="number" min="0" matInput [formControlName]="filtro.nome"/>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="filtro-container" *ngSwitchCase="'menor'">
+          <span class="filtro-label">{{ filtro.label }}</span>
+          <div style="display: flex">
+            <div>
+              <span>Menor que</span>
+              <mat-form-field appearance="outline" class="outline-input">
+                <input type="number" min="0" matInput [placeholder]="filtro.label" [formControlName]="filtro.nome"/>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </form>
+  <div class="table-filter-button-container">
+    <button [disabled]="!form.valid" class="table-filter-button" color="primary" (click)="emitFiltros()" mat-raised-button>Filtrar</button>
+  </div>
+</div>

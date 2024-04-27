@@ -1,7 +1,6 @@
 import {Injectable, NgModule} from "@angular/core";
 import {
   HTTP_INTERCEPTORS,
-  HttpClient,
   HttpClientModule,
   HttpHandler,
   HttpInterceptor,

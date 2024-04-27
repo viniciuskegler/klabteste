@@ -11,7 +11,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: #a1a47a73;
+  background-color: #a1a47a73;
 }
 
 .table-filtro {
@@ -28,4 +28,18 @@ body {
   .mat-sort-header-container {
     justify-content: center;
   }
+  .mat-mdc-header-row {
+    background-color: #a1a47a73;
+    border-radius: 2px;
+  }
+
+  .mat-mdc-header-cell {
+    border: solid 1px gray;
+    border-radius: 2px;
+  }
+}
+
+.mdc-button.mat-primary:not(.mat-mdc-button-disabled) {
+  background-color: #a1a47a73 !important;
+  color: black !important;
 }

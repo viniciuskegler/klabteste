@@ -1,0 +1,42 @@
+.table-filtros-container {
+  margin: 20px 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filtro-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-bottom: 4px solid #8080804a;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.filtro-label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 14px;
+  margin-top: 14px;
+}
+
+.filtro-intervalo {
+  display: flex;
+  .filtro-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 100px;
+    text-align: center;
+
+  }
+
+  .filtro-input:first-child {
+    margin-right: 8px;
+  }
+  
+  mat-form-field {
+    width: 100px;
+  }
+}
+

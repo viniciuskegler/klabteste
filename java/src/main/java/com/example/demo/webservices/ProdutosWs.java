@@ -15,20 +15,12 @@ public class ProdutosWs {
 
     @GetMapping()
     public ResponseEntity<Object> getAllProducts() {
-        try {
-            return ResponseEntity.ok(produtos.getAllProducts());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar produtos." + e.getMessage());
-        }
+        return ResponseEntity.ok(produtos.getAllProducts());
     }
 
     @PostMapping()
-    public ResponseEntity<String> createProduct(@RequestBody Map<String, Object> product) {
-        try {
-            produtos.insertProduct(product);
-            return ResponseEntity.ok("Produto criado com sucesso.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar produto." + e.getMessage());
-        }
+    public ResponseEntity<?> createProduct(@RequestBody Map<String, Object> product) {
+        produtos.insertProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

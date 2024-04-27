@@ -1,4 +1,5 @@
-import {Component, inject} from "@angular/core";
+import { Component, inject } from "@angular/core";
+import { DataTableFiltro } from "../shared/data-table-filtros/data-table-filtros.component";
 import { DataTableField } from "../shared/data-table/data-table.component";
 import { ProdutosService } from "./produtos.service";
 
@@ -48,10 +49,32 @@ export class ProdutosComponent {
     },
   ];
 
+  produtosFiltros: DataTableFiltro[] = [
+    {
+      nome: 'preco',
+      label: 'Preço',
+      tipoFiltro: 'intervalo',
+      tipoDado: 'currency'
+    },
+    {
+      nome: 'quantidades',
+      label: 'Quantidade total',
+      tipoFiltro: 'maior',
+      tipoDado: 'number'
+
+    },
+    {
+      nome: 'nome',
+      label: 'Nome',
+      tipoFiltro: 'igual',
+      tipoDado: 'string'
+    },
+  ];
+
   ngOnInit() {
-      this.produtosService.getAllProdutos().subscribe((values) => {
-        this.produtosData = values;
-      });
+    this.produtosService.getAllProdutos().subscribe((values) => {
+      this.produtosData = values;
+    });
   }
 
 }
