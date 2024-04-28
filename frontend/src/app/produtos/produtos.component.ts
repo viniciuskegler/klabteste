@@ -10,7 +10,7 @@ export interface Produto {
   quantidades: number;
   defeitos: number;
   disponivel: number;
-  preco: number;
+  preco: string;
 }
 
 @Component({

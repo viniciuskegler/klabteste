@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProdutosComponent } from './produtos.component';
 import { MatCardModule } from '@angular/material/card';
@@ -14,6 +14,10 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ProdutoVendaDialogComponent } from './produto-venda-dialog/produto-venda-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 
 const route = [
   { component: ProdutosComponent, path: '' },
@@ -31,10 +35,13 @@ const route = [
     MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,
-    MatListModule
+    MatListModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSelectModule
   ],
-  declarations: [ProdutosComponent, ProdutoDetalhesComponent],
+  declarations: [ProdutosComponent, ProdutoDetalhesComponent, ProdutoVendaDialogComponent],
   exports: [ProdutosComponent],
-  providers: [ProdutosService, VendasService],
+  providers: [ProdutosService, VendasService, CurrencyPipe],
 })
 export class ProdutosModule { }

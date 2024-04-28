@@ -49,6 +49,9 @@
                         <span class="label">Quantidade disponível:</span>
                         <span class="info">{{produto.disponivel}}</span>
                     </div>
+                    <div style="display: flex; justify-content: flex-end;">
+                        <button mat-raised-button color="primary" (click)="efetuarVenda()">Efetuar Venda</button>
+                    </div>
                     <div class="produto-detalhe-info">
                         <mat-expansion-panel [expanded]="true">
                             <mat-expansion-panel-header>

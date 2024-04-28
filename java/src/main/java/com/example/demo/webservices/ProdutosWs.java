@@ -28,4 +28,16 @@ public class ProdutosWs {
     public ResponseEntity<Object> getProductById(@PathVariable int id) {
         return ResponseEntity.ok(produtos.getProductById(id));
     }
+
+    @PatchMapping("/quantidades/{id}")
+    public ResponseEntity<Object> updateProductQuantity(@PathVariable int id, @RequestBody Map<String, Object> product) {
+        produtos.updateProductQuantity(id, product);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping("/detalhes/{id}")
+    public ResponseEntity<Object> updateProductPriceDefects(@PathVariable int id, @RequestBody Map<String, Object> body) {
+        produtos.updateProductPriceDefects(id, body);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

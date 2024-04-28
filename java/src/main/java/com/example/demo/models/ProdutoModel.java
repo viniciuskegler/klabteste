@@ -7,12 +7,10 @@ import com.example.demo.exceptions.webservice.ObjectNotFoundException;
 import com.example.demo.interfaces.Produtos;
 import com.example.demo.services.NativeScriptService;
 import com.example.demo.utils.database.DbConnHelper;
-import jakarta.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -68,8 +66,8 @@ public class ProdutoModel implements Produtos {
         String nome = (String) product.get("nome");
         Integer quantidades = (Integer) product.get("quantidades");
         Integer defeitos = (Integer) product.get("defeitos");
-        Double preco = (Double) product.get("preco");
-        BigDecimal precoConvertido = preco != null ? BigDecimal.valueOf(preco) : BigDecimal.ZERO;
+        String preco = (String) product.get("preco");
+        BigDecimal precoConvertido = preco != null ? new BigDecimal(preco) : BigDecimal.ZERO;
 
         //Não abre a conexão se o payload é invalido.
         if (nome == null || quantidades == null | preco == null) {
@@ -111,6 +109,72 @@ public class ProdutoModel implements Produtos {
             return produto;
         } catch (DatabaseConnectionException | SQLException e) {
             throw new InternalServerErrorException("Erro ao consultar produto no banco de dados: " + e.getMessage());
+        } finally {
+            connectionHelper.closeCon(pstm);
+        }
+    }
+
+    @Override
+    public void updateProductQuantity(int id, Map<String, Object> product) throws RuntimeException {
+        String sqlInsertProdutos = "UPDATE PRODUTOS SET QUANTIDADES = ? WHERE ID = ?";
+        PreparedStatement pstm = null;
+
+        //Verifica se existe
+        Map<String, Object> produtoPesq = (Map<String, Object>) getProductById(id);
+
+        Integer quantidades = (Integer) product.get("quantidades");
+        //Não abre a conexão se o payload é invalido.
+        if (quantidades == null || quantidades <= 0) {
+            throw new BadRequestException("Payload inválido");
+        }
+        try {
+            pstm = connectionHelper.getPreparedStatement(nativeScriptService, sqlInsertProdutos);
+            pstm.setInt(1, quantidades);
+            pstm.setInt(2, id);
+            updateProduct(pstm);
+        } catch ( SQLException e) {
+            throw new InternalServerErrorException("Erro ao atualizar produto no banco de dados: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateProductPriceDefects(int id, Map<String, Object> data) throws RuntimeException {
+        String sqlInsertProdutos = "UPDATE PRODUTOS SET DEFEITOS = ?, PRECO = ? WHERE ID = ?";
+        PreparedStatement pstm = null;
+        //Verifica se existe
+        Map<String, Object> produtoPesq = (Map<String, Object>) getProductById(id);
+        BigDecimal precoAtual = (BigDecimal) produtoPesq.get("preco");
+
+        Integer defeitos = (Integer) data.get("defeitos");
+        String preco = (String) data.get("preco");
+        BigDecimal precoConvertido = preco != null ? new BigDecimal(preco) : BigDecimal.ZERO;
+
+        //Não abre a conexão se o payload é invalido.
+        if ((defeitos == null || defeitos <= 0) || precoConvertido.compareTo(BigDecimal.ZERO) == 0) {
+            throw new BadRequestException("Payload inválido");
+        }
+
+        //Cliente não reduz os preços.
+        if(precoConvertido.compareTo(precoAtual) < 0){
+            throw new BadRequestException("O preço novo não pode ser menor que o atual.");
+        }
+
+        try {
+            pstm = connectionHelper.getPreparedStatement(nativeScriptService, sqlInsertProdutos);
+            pstm.setInt(1, defeitos);
+            pstm.setBigDecimal(2, precoConvertido);
+            pstm.setInt(3, id);
+            updateProduct(pstm);
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new InternalServerErrorException("Erro ao atualizar produto no banco de dados: " + e.getMessage());
+        }
+    }
+
+    private void updateProduct(PreparedStatement pstm) throws RuntimeException {
+        try {
+             pstm.executeUpdate();
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new InternalServerErrorException("Erro ao atualizar produto no banco de dados: " + e.getMessage());
         } finally {
             connectionHelper.closeCon(pstm);
         }

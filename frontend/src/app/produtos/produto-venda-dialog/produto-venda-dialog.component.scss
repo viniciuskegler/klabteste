@@ -1,0 +1,67 @@
+.produto-venda-dialog {
+    .mat-mdc-dialog-surface {
+        overflow: hidden;
+    }
+}
+
+.produto-venda-dialog-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 40vw;
+    padding: 16px;
+}
+
+.produto-venda-titulo{
+    display: flex;
+    justify-content: center;
+}
+
+.produto-venda-form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.produto-venda-totalizadores {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.produto-venda-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .info-label {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .info-data {
+        font-size: 16px;
+    }
+}
+
+.produto-venda-form {
+    padding: 8px;
+}
+
+.produto-venda-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    span {
+        text-align: center;
+    }
+}
+
+.produto-venda-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 1200px) {
+    .produto-venda-dialog-content {
+        width: 60vw;
+    }
+}

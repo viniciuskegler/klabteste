@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface Vendas {
 
-    public void insertSale(Map<String, Object> product) throws RuntimeException;
+    public void insertSale(Map<String, Object> sale) throws RuntimeException;
 
     public Object getAllSales() throws RuntimeException;
 

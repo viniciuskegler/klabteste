@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { ProdutosService } from "../produtos.service";
 import { ActivatedRoute } from "@angular/router";
 import { Produto } from "../produtos.component";
@@ -7,6 +7,9 @@ import { VendasService } from "../../vendas/vendas.service";
 import { Venda } from "../../vendas/vendas.component";
 import { FormControl, Validators } from "@angular/forms";
 import { DataTableField } from "../../shared/data-table/data-table.component";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProdutoVendaDialogComponent } from "../produto-venda-dialog/produto-venda-dialog.component";
 
 @Component({
   selector: "produto-detalhes-component",
@@ -17,7 +20,8 @@ export class ProdutoDetalhesComponent {
   produtosService = inject(ProdutosService);
   vendasService = inject(VendasService);
   activatedRoute = inject(ActivatedRoute);
-  changeDetectorRef = inject(ChangeDetectorRef);
+  dialog = inject(MatDialog);
+  snackBar: MatSnackBar = inject(MatSnackBar);
 
   pesquisaExpanded: boolean = true;
   controlPesquisa: FormControl = new FormControl(null, [Validators.pattern(/^[1-9]\d*$/)]);
@@ -54,7 +58,7 @@ export class ProdutoDetalhesComponent {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
-      if(params["id"]) {
+      if (params["id"]) {
         this.pesquisarProduto(params["id"]);
         this.controlPesquisa.setValue(params["id"]);
       }
@@ -64,11 +68,30 @@ export class ProdutoDetalhesComponent {
   pesquisarProduto(idProduto: string) {
     this.produtosService.getProduto(Number(idProduto))
       .pipe(tap(produto => this.produto = produto),
-        switchMap(produto => this.vendasService.getAllVendasByProduct(Number(idProduto))))
-      .subscribe((vendas) => {
-        this.vendas = vendas;
-        this.pesquisaExpanded = false;
-        this.changeDetectorRef.markForCheck();
+        switchMap(produto => this.vendasService
+          .getAllVendasByProduct(Number(idProduto))))
+      .subscribe({
+        next: (vendas) => {
+          this.vendas = vendas;
+          this.pesquisaExpanded = false;
+        },
+        error: (err) => {
+          this.produto = null;
+          this.vendas = [];
+          alert(err.error.message);
+        }
       })
+  }
+
+  efetuarVenda() {
+    this.dialog.open(ProdutoVendaDialogComponent, {
+      data: { produto: this.produto },
+      panelClass: 'produto-venda-dialog'
+    }).afterClosed().subscribe((res) => {
+      if (res) {
+        this.snackBar.open("Venda efetuada com sucesso!", null, { duration: 3000 })
+        this.pesquisarProduto(this.produto.id.toString());
+      }
+    })
   }
 }

@@ -1,0 +1,43 @@
+<div class="produto-venda-dialog-content">
+    <div class="produto-venda-titulo">
+        <h1>Efetuar venda</h1>
+    </div>
+    <div class="produto-venda-form-container">
+        <div class="produto-venda-totalizadores">
+            <div class="produto-venda-info">
+                <span class="info-label">Quantidade disponível</span>
+                <span class="info-data">{{this.produto.disponivel}}</span>
+            </div>
+            <div class="produto-venda-info">
+                <span class="info-label">Preço Un</span>
+                <span class="info-data">{{this.produto.preco | currency}}</span>
+            </div>
+            
+        </div>
+        <form class="produto-venda-form" [formGroup]="form">
+            <div class="produto-venda-field">
+                <span>Nome do comprador</span>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="comprador" required>
+                    <mat-error *ngIf="this.form.get('quantidades').getError('maxLength')">
+                        Nome inválido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="produto-venda-field">
+                <span>Quantidade</span>
+                <mat-form-field appearance="outline">
+                    <mat-select formControlName="quantidades" required>
+                        <mat-option *ngFor="let opcao of opcoesQtde" [value]="opcao">
+                        {{opcao}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+    <div class="produto-venda-buttons">
+        <button mat-raised-button color="warn" (click)="dialogRef.close()">Cancelar</button>
+        <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="efetuarVenda()">Confirmar</button>
+    </div>
+</div>
