@@ -9,6 +9,10 @@ import { Observable } from 'rxjs';
 export class VendasService {
   httpClient = inject(HttpClient);
 
+  getAllVendas(): Observable<Venda[]> {
+    return this.httpClient.get<Venda[]>(`vendas`);
+  }
+
   getAllVendasByProduct(productId: number): Observable<Venda[]> {
     return this.httpClient.get<Venda[]>(`vendas/produto/${productId}`);
   }
