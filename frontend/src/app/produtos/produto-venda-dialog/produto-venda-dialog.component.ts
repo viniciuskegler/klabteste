@@ -22,7 +22,6 @@ export class ProdutoVendaDialogComponent implements OnInit {
     produto: Produto;
     opcoesQtde: number[] = []
 
-
     ngOnInit(): void {
         this.produto = this.data.produto;
         this.form = this.formBuilder.group({

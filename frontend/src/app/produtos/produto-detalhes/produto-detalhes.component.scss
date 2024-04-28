@@ -58,6 +58,11 @@
     }
 }
 
+.produto-detalhe-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
 .produto-sem-vendas {
     font-size: 18px;
 }

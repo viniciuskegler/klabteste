@@ -2,7 +2,14 @@
   <mat-accordion>
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
-        <mat-panel-title><span>Produtos Cadastrados</span></mat-panel-title>
+        <mat-panel-title>
+          <span>Produtos Cadastrados</span>
+          <div class="button-expansion">
+            <button mat-icon-button matTooltip="Adicionar produto" (click)="abrirDialogCadastro($event)">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </mat-panel-title>
       </mat-expansion-panel-header>
       <ng-container *ngIf="produtosData">
         <data-table [columns]="produtoColumns" [data]="produtosData" [actions]="produtosActions" [filtros]="produtosFiltros"></data-table>

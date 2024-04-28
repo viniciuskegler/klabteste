@@ -150,7 +150,7 @@ public class ProdutoModel implements Produtos {
         BigDecimal precoConvertido = preco != null ? new BigDecimal(preco) : BigDecimal.ZERO;
 
         //Não abre a conexão se o payload é invalido.
-        if ((defeitos == null || defeitos <= 0) || precoConvertido.compareTo(BigDecimal.ZERO) == 0) {
+        if ((defeitos == null || defeitos < 0) || precoConvertido.compareTo(BigDecimal.ZERO) == 0) {
             throw new BadRequestException("Payload inválido");
         }
 

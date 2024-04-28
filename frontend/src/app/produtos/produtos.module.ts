@@ -16,12 +16,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ProdutoVendaDialogComponent } from './produto-venda-dialog/produto-venda-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ProdutoVendaDialogComponent } from './produto-venda-dialog/produto-venda-dialog.component';
+import { ProdutoAtualizacaoDialogComponent } from './produto-atualizacao/produto-atualizacao-dialog.component';
+import { ProdutoCadastroDialogComponent } from './produto-cadastro/produto-cadastro-dialog.component';
 
 const route = [
   { component: ProdutosComponent, path: '' },
-  { component: ProdutoDetalhesComponent, path: 'detalhes'}
+  { component: ProdutoDetalhesComponent, path: 'detalhes' }
 ];
 @NgModule({
   imports: [
@@ -38,9 +41,14 @@ const route = [
     MatListModule,
     MatIconModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTooltipModule
   ],
-  declarations: [ProdutosComponent, ProdutoDetalhesComponent, ProdutoVendaDialogComponent],
+  declarations: [ProdutosComponent,
+    ProdutoDetalhesComponent,
+    ProdutoVendaDialogComponent,
+    ProdutoAtualizacaoDialogComponent,
+    ProdutoCadastroDialogComponent],
   exports: [ProdutosComponent],
   providers: [ProdutosService, VendasService, CurrencyPipe],
 })

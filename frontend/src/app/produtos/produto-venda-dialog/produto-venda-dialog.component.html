@@ -19,7 +19,7 @@
                 <span>Nome do comprador</span>
                 <mat-form-field appearance="outline">
                     <input matInput formControlName="comprador" required>
-                    <mat-error *ngIf="this.form.get('quantidades').getError('maxLength')">
+                    <mat-error *ngIf="this.form.get('comprador').getError('maxLength')">
                         Nome inválido
                     </mat-error>
                 </mat-form-field>
@@ -38,6 +38,6 @@
     </div>
     <div class="produto-venda-buttons">
         <button mat-raised-button color="warn" (click)="dialogRef.close()">Cancelar</button>
-        <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="efetuarVenda()">Confirmar</button>
+        <button mat-raised-button color="primary" [disabled]="!form.valid || opcoesQtde.length === 0" (click)="efetuarVenda()">Confirmar</button>
     </div>
 </div>

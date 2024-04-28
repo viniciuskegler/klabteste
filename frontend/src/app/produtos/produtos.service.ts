@@ -22,4 +22,12 @@ export class ProdutosService {
       tap((prod) => prod.disponivel = prod.defeitos ? prod.quantidades - prod.defeitos : prod.quantidades)
     );
   }
+
+  createProduto(body: Produto): Observable<any> {
+    return this.httpClient.post<any>(`produtos/`, body);
+  }
+
+  updateProductPriceDefects(id: number, body: any): Observable<any> {
+    return this.httpClient.patch<any>(`produtos/detalhes/${id}`, body);
+  }
 }

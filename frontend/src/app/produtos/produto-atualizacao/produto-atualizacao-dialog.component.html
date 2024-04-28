@@ -1,0 +1,53 @@
+<div class="produto-atualizacao-dialog-content">
+    <div class="produto-atualizacao-titulo">
+        <h1>Editar Produto</h1>
+    </div>
+    <div class="produto-atualizacao-form-container">
+        <div class="produto-atualizacao-totalizadores">
+            <div class="produto-atualizacao-info">
+                <span class="info-label">Quantidade total</span>
+                <span class="info-data">{{this.produto.quantidades}}</span>
+            </div>
+            <div class="produto-atualizacao-info">
+                <span class="info-label">Quantidade disponivel</span>
+                <span class="info-data">{{this.produto.disponivel}}</span>
+            </div>
+            <div class="produto-atualizacao-info">
+                <span class="info-label">Quantidade defeitos</span>
+                <span class="info-data">{{this.produto.defeitos}}</span>
+            </div>
+            <div class="produto-atualizacao-info">
+                <span class="info-label">Preço Un</span>
+                <span class="info-data">{{this.produto.preco | currency}}</span>
+            </div>
+            
+        </div>
+        <form class="produto-atualizacao-form" [formGroup]="form">
+            <div class="produto-atualizacao-field">
+                <span>Preço do produto</span>
+                <mat-form-field appearance="outline">
+                    <input matInput type="number" formControlName="preco" required>
+                    <mat-error *ngIf="this.form.get('preco').getError('required')">
+                        Preço não pode ser vazio
+                    </mat-error>
+                    <mat-error *ngIf="this.form.get('preco').getError('min')">
+                        Preço não pode ser menor que o atual
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="produto-atualizacao-field">
+                <span>Quantidade com defeito</span>
+                <mat-form-field appearance="outline">
+                    <input matInput [max]="produto.quantidades" type="number" formControlName="qtdeDefeitos" (blur)="formatInput($event)">
+                    <mat-error *ngIf="form.get('qtdeDefeitos').getError('min') || form.get('qtdeDefeitos').getError('max')">
+                        Quantidade inválida
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+    <div class="produto-atualizacao-buttons">
+        <button mat-raised-button color="warn" (click)="dialogRef.close()">Cancelar</button>
+        <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="atualizarProduto()">Atualizar</button>
+    </div>
+</div>

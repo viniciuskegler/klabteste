@@ -3,6 +3,8 @@ import { DataTableAction, DataTableFiltro } from "../shared/data-table-filtros/d
 import { DataTableField } from "../shared/data-table/data-table.component";
 import { ProdutosService } from "./produtos.service";
 import { Router } from "@angular/router";
+import { MatDialog } from "@angular/material/dialog";
+import { ProdutoCadastroDialogComponent } from "./produto-cadastro/produto-cadastro-dialog.component";
 
 export interface Produto {
   id: number;
@@ -19,6 +21,7 @@ export interface Produto {
   styleUrl: "produtos.component.scss"
 })
 export class ProdutosComponent {
+  dialog = inject(MatDialog);
   produtosService = inject(ProdutosService);
   router = inject(Router);
 
@@ -84,9 +87,26 @@ export class ProdutosComponent {
   ]
 
   ngOnInit() {
+    this.atualizarProdutos();
+  }
+
+  atualizarProdutos() {
     this.produtosService.getAllProdutos().subscribe((values) => {
       this.produtosData = values;
     });
+  }
+
+  abrirDialogCadastro(event:any) {
+    this.dialog.open(ProdutoCadastroDialogComponent, { panelClass: "produto-cadastro-dialog" })
+      .afterClosed().subscribe((res) => {
+        if (res) {
+          this.atualizarProdutos();
+        }
+      });
+    
+    //Previne o expansion panel de expandir/colapsar
+    event.preventDefault();
+    event.stopPropagation();
   }
 
 }

@@ -1,0 +1,47 @@
+.produto-cadastro-dialog {
+    .mat-mdc-dialog-surface {
+        overflow: hidden;
+    }
+}
+
+.produto-cadastro-dialog-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 40vw;
+    padding: 16px;
+}
+
+.produto-cadastro-titulo{
+    display: flex;
+    justify-content: center;
+}
+
+.produto-cadastro-form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.produto-cadastro-form {
+    padding: 8px;
+}
+
+.produto-cadastro-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    span {
+        text-align: center;
+    }
+}
+
+.produto-cadastro-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 1200px) {
+    .produto-cadastro-dialog-content {
+        width: 60vw;
+    }
+}

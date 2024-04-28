@@ -10,6 +10,7 @@ import { DataTableField } from "../../shared/data-table/data-table.component";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProdutoVendaDialogComponent } from "../produto-venda-dialog/produto-venda-dialog.component";
+import { ProdutoAtualizacaoDialogComponent } from "../produto-atualizacao/produto-atualizacao-dialog.component";
 
 @Component({
   selector: "produto-detalhes-component",
@@ -90,6 +91,18 @@ export class ProdutoDetalhesComponent {
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.snackBar.open("Venda efetuada com sucesso!", null, { duration: 3000 })
+        this.pesquisarProduto(this.produto.id.toString());
+      }
+    })
+  }
+
+  editarProduto() {
+    this.dialog.open(ProdutoAtualizacaoDialogComponent, {
+      data: { produto: this.produto },
+      panelClass: 'produto-atualizacao-dialog'
+    }).afterClosed().subscribe((res) => {
+      if (res) {
+        this.snackBar.open("Produto atualizado com sucesso!", null, { duration: 3000 })
         this.pesquisarProduto(this.produto.id.toString());
       }
     })

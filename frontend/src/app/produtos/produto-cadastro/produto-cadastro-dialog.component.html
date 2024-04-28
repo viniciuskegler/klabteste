@@ -1,0 +1,57 @@
+<div class="produto-cadastro-dialog-content">
+    <div class="produto-cadastro-titulo">
+        <h1>Cadastrar Produto</h1>
+    </div>
+    <div class="produto-cadastro-form-container">
+        <form class="produto-cadastro-form" [formGroup]="form">
+            <div class="produto-cadastro-field">
+                <span>Nome do produto</span>
+                <mat-form-field appearance="outline">
+                    <input matInput formControlName="nome" required>
+                    <mat-error *ngIf="this.form.get('nome').getError('required')">
+                        Nome não pode ser vazio
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="produto-cadastro-field">
+                <span>Preço do produto</span>
+                <mat-form-field appearance="outline">
+                    <input matInput type="number" formControlName="preco" required>
+                    <mat-error *ngIf="this.form.get('preco').getError('required')">
+                        Preço não pode ser vazio
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="produto-cadastro-field">
+                <span>Quantidade total</span>
+                <mat-form-field appearance="outline">
+                    <input matInput type="number" formControlName="quantidades" (blur)="formatInput($event)">
+                    <mat-error *ngIf="form.get('quantidades').getError('min')">
+                        Quantidade inválida
+                    </mat-error>
+                    <mat-error *ngIf="form.get('quantidades').getError('max')">
+                        Quantidade não pode ser vazia
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="produto-cadastro-field">
+                <span>Quantidade com defeito</span>
+                <mat-form-field appearance="outline">
+                    <input matInput type="number" formControlName="defeitos" (blur)="formatInput($event); validarInputDefeitos($event)">
+                    <mat-error
+                        *ngIf="form.get('defeitos').getError('min')">
+                        Quantidade de defeitos inválida
+                    </mat-error>
+                    <mat-error
+                        *ngIf="form.get('defeitos').getError('max')">
+                        Quantidade de defeitos não pode ser maior que o total de produtos.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+    <div class="produto-cadastro-buttons">
+        <button mat-raised-button color="warn" (click)="dialogRef.close()">Cancelar</button>
+        <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="cadastrar()">Cadastrar</button>
+    </div>
+</div>

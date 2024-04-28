@@ -1,0 +1,73 @@
+.produto-atualizacao-dialog {
+    .mat-mdc-dialog-surface {
+        overflow: hidden;
+    }
+}
+
+.produto-atualizacao-dialog-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 40vw;
+    padding: 16px;
+}
+
+.produto-atualizacao-titulo{
+    display: flex;
+    justify-content: center;
+}
+
+.produto-atualizacao-form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.produto-atualizacao-totalizadores {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.produto-atualizacao-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .info-label {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .info-data {
+        font-size: 16px;
+    }
+}
+
+.produto-atualizacao-form {
+    padding: 8px;
+}
+
+.produto-atualizacao-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    span {
+        text-align: center;
+    }
+}
+
+.produto-atualizacao-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 1200px) {
+    .produto-atualizacao-dialog-content {
+        width: 60vw;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .produto-atualizacao-info {
+        width: 100%;
+    }
+}
