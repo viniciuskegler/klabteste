@@ -1,5 +1,6 @@
 package com.example.demo.utils.database;
 
+import com.example.demo.exceptions.database.DatabaseConnectionException;
 import com.example.demo.exceptions.webservice.InternalServerErrorException;
 import com.example.demo.services.NativeScriptService;
 import jakarta.persistence.PersistenceException;
@@ -15,17 +16,17 @@ import java.sql.SQLException;
 @Component
 public class DbConnHelper {
 
-     public PreparedStatement getPreparedStatement(NativeScriptService service, String sql) throws RuntimeException {
+     public PreparedStatement getPreparedStatement(NativeScriptService service, String sql) throws DatabaseConnectionException {
         try {
             Connection con = service.getConectionDb();
             return service.getPreparedStatementDb(sql, con);
         } catch (SQLException ex) {
             ex.printStackTrace();
-            throw new RuntimeException("Erro ao abrir conexões com o banco");
+            throw new DatabaseConnectionException("Erro ao abrir conexões com o banco");
         }
     }
 
-    public void closeCon(PreparedStatement pstm) throws RuntimeException {
+    public void closeCon(PreparedStatement pstm) throws DatabaseConnectionException {
         try {
             if(pstm != null && !pstm.getConnection().isClosed()){
                 pstm.getConnection().close();
@@ -33,7 +34,7 @@ public class DbConnHelper {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            throw new RuntimeException("Erro ao fechar conexões com o banco");
+            throw new DatabaseConnectionException("Erro ao fechar conexões com o banco");
         }
     }
 }

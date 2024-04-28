@@ -1,7 +1,8 @@
 import { Component, inject } from "@angular/core";
-import { DataTableFiltro } from "../shared/data-table-filtros/data-table-filtros.component";
+import { DataTableAction, DataTableFiltro } from "../shared/data-table-filtros/data-table-filtros.component";
 import { DataTableField } from "../shared/data-table/data-table.component";
 import { ProdutosService } from "./produtos.service";
+import { Router } from "@angular/router";
 
 export interface Produto {
   id: number;
@@ -19,6 +20,7 @@ export interface Produto {
 })
 export class ProdutosComponent {
   produtosService = inject(ProdutosService);
+  router = inject(Router);
 
   produtosData: Produto[];
   produtoColumns: DataTableField[] = [
@@ -70,6 +72,16 @@ export class ProdutosComponent {
       tipoDado: 'string'
     },
   ];
+
+  produtosActions: DataTableAction[] = [
+    {
+      label: "Detalhes do produto",
+      icon: "info",
+      action: (rowInfo) => {
+        this.router.navigateByUrl(`/produtos/detalhes?id=${rowInfo["id"]}`);
+      }
+    }
+  ]
 
   ngOnInit() {
     this.produtosService.getAllProdutos().subscribe((values) => {

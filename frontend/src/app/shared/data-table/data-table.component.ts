@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild, input } from '@angular/core';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { Sort, MatSortModule, MatSort } from '@angular/material/sort';
 import {
@@ -8,11 +8,14 @@ import {
   PageEvent,
 } from '@angular/material/paginator';
 import {
+  DataTableAction,
   DataTableFiltro,
   DataTableFiltrosComponent,
 } from '../data-table-filtros/data-table-filtros.component';
 import { MatIconModule } from '@angular/material/icon';
 import { PtBrMatPaginatorIntl } from '../ptbr-mat-paginator-intl';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
 
 export interface DataTableField {
   nome: string;
@@ -31,16 +34,19 @@ export type DataTableTipoDado = 'string' | 'number' | 'currency';
     MatSortModule,
     MatPaginatorModule,
     MatIconModule,
-    DataTableFiltrosComponent,
+    MatTooltipModule,
+    MatButtonModule,
+    DataTableFiltrosComponent
   ],
   providers: [{ provide: MatPaginatorIntl, useClass: PtBrMatPaginatorIntl }],
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.scss',
 })
-export class DataTableComponent {
+export class DataTableComponent implements AfterViewInit {
   @ViewChild(MatTable) table: MatTable<any>;
   @ViewChild(MatSort) sort: MatSort;
 
+  @Input() actions: DataTableAction[];
   @Input() filtros: DataTableFiltro[];
 
   @Input() set columns(columns: DataTableField[]) {
@@ -75,6 +81,12 @@ export class DataTableComponent {
   dataLength: number = 0;
 
   keyOrderOriginal = (): number => 0;
+
+  ngAfterViewInit(): void {
+    if(this.actions){
+      this.columnsNames.push("action");
+    }
+  }
 
   handleTableChange(sortEvent?: Sort, pageEvent?: PageEvent) {
     let data: any[] = this.filteredData

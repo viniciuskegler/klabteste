@@ -1,8 +1,39 @@
 <div class="app-content-wrapper">
-  <mat-toolbar class="app-header">
-    <a routerLink="/" class="home-redirect-button"> Teste KLAB </a>
+  <mat-toolbar class="mat-elevation-z2 app-header">
+    <div class="toolbar-itens">
+      <a (click)="sidenav.close()" routerLink="/">
+        <span> Teste KLAB </span>
+      </a>
+      <button (click)="sidenav.opened ? sidenav.close() : sidenav.open()" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
   </mat-toolbar>
-  <div class="app-content">
-      <router-outlet></router-outlet>
-  </div>
+  <mat-sidenav-container class="drawer-container">
+    <mat-sidenav mode="over" #sidenav position="end">
+      <mat-nav-list>
+        <a mat-list-item (click)="sidenav.close()" routerLink="/produtos">
+          <div class="item-navbar">
+            <mat-icon>inventory</mat-icon>
+            <span>
+              Produtos
+            </span>
+          </div>
+        </a>
+        <a mat-list-item (click)="sidenav.close()" routerLink="/produtos/detalhes">
+          <div class="item-navbar">
+            <mat-icon>info</mat-icon>
+            <span>
+              Produtos Detalhes
+            </span>
+          </div>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="app-content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

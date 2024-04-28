@@ -5,18 +5,67 @@
 }
 
 .app-content {
-  height: 100%;
+  height: fit-content;
   border-radius: 3px;
-  padding: 6px;
+  padding: 6px 6px 0px 6px;
 }
 
 .app-header {
   min-height: 60px;
   line-height: 1;
+  z-index: 2;
   background-color: black;
   color: white;
+}
+
+.toolbar-itens {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   a {
+    text-decoration: none;
     margin-right: 12px;
+    color: white;
+  }
+}
+
+.drawer-container {
+  a {
+    height: 40px;
+    margin: 4px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px;
+    color: black;
+    background-color: white;
+  }
+  mat-nav-list {
+    margin-right: 8px;
+    padding-top: 2px
+  }
+}
+
+.drawer-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: none;
+}
+
+.item-navbar {
+  display: flex;
+  span {
+    margin-left: 6px;
+  }
+}
+
+.home-redirect-button {
+  display: flex;
+  align-items: center;
+  span {
+    margin-left: 10px;
   }
 }
 

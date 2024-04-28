@@ -5,7 +5,7 @@
         <mat-panel-title><span>Produtos Cadastrados</span></mat-panel-title>
       </mat-expansion-panel-header>
       <ng-container *ngIf="produtosData">
-        <data-table [columns]="produtoColumns" [data]="produtosData" [filtros]="produtosFiltros"></data-table>
+        <data-table [columns]="produtoColumns" [data]="produtosData" [actions]="produtosActions" [filtros]="produtosFiltros"></data-table>
       </ng-container>
     </mat-expansion-panel>
   </mat-accordion>

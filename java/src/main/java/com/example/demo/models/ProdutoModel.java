@@ -1,7 +1,9 @@
 package com.example.demo.models;
 
+import com.example.demo.exceptions.database.DatabaseConnectionException;
 import com.example.demo.exceptions.webservice.BadRequestException;
 import com.example.demo.exceptions.webservice.InternalServerErrorException;
+import com.example.demo.exceptions.webservice.ObjectNotFoundException;
 import com.example.demo.interfaces.Produtos;
 import com.example.demo.services.NativeScriptService;
 import com.example.demo.utils.database.DbConnHelper;
@@ -52,7 +54,7 @@ public class ProdutoModel implements Produtos {
             }
             rs.close();
             return listMap;
-        } catch (RuntimeException | SQLException e) {
+        } catch (DatabaseConnectionException | SQLException e) {
             throw new InternalServerErrorException("Erro ao consultar produtos no banco de dados: " + e.getMessage());
         } finally {
             connectionHelper.closeCon(pstm);
@@ -80,8 +82,35 @@ public class ProdutoModel implements Produtos {
             pstm.setInt(3, defeitos);
             pstm.setBigDecimal(4, precoConvertido);
             pstm.executeUpdate();
-        } catch (RuntimeException | SQLException e) {
+        } catch (DatabaseConnectionException | SQLException e) {
             throw new InternalServerErrorException("Erro ao inserir produto no banco de dados: " + e.getMessage());
+        } finally {
+            connectionHelper.closeCon(pstm);
+        }
+    }
+
+    @Override
+    public Object getProductById(int id) throws RuntimeException {
+        Map<String, Object> produto;
+        String sql = "SELECT * FROM PRODUTOS P WHERE P.ID = " + id;
+        PreparedStatement pstm = null;
+        try {
+            pstm = connectionHelper.getPreparedStatement(nativeScriptService, sql);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                produto = new HashMap<>();
+                produto.put("id", rs.getObject("id"));
+                produto.put("nome", rs.getObject("nome"));
+                produto.put("quantidades", rs.getObject("quantidades"));
+                produto.put("defeitos", rs.getObject("defeitos"));
+                produto.put("preco", rs.getObject("preco"));
+            } else {
+                throw new ObjectNotFoundException("Produto com o id solicitado não encontrado.");
+            }
+            rs.close();
+            return produto;
+        } catch (DatabaseConnectionException | SQLException e) {
+            throw new InternalServerErrorException("Erro ao consultar produto no banco de dados: " + e.getMessage());
         } finally {
             connectionHelper.closeCon(pstm);
         }

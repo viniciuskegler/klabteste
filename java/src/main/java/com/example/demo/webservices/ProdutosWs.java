@@ -23,4 +23,9 @@ public class ProdutosWs {
         produtos.insertProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getProductById(@PathVariable int id) {
+        return ResponseEntity.ok(produtos.getProductById(id));
+    }
 }

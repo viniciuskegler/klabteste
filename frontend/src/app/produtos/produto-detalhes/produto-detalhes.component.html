@@ -1,0 +1,71 @@
+<div class="produto-detalhe-container">
+    <div class="produto-detalhes-painel">
+        <mat-expansion-panel class="produto-detalhes-pesquisa" [(expanded)]="pesquisaExpanded">
+            <mat-expansion-panel-header>
+                <span>
+                    Pesquisar Produto
+                </span>
+            </mat-expansion-panel-header>
+            <div class="produto-detalhes-pesquisa-container">
+                <mat-form-field appearance="outline" class="outline-input">
+                    <mat-label>Digite o id do produto</mat-label>
+                    <input matInput type="text" [formControl]="controlPesquisa">
+                </mat-form-field>
+                <button mat-raised-button color="primary" (click)="pesquisarProduto(controlPesquisa.value)"
+                    [disabled]="!controlPesquisa.valid || controlPesquisa.pristine">Pesquisar</button>
+            </div>
+        </mat-expansion-panel>
+    </div>
+
+    <div *ngIf="produto" class="produto-detalhes-painel">
+        <mat-card>
+            <mat-card-header>
+                <span class="produto-detalhe-nome">Detalhes
+                </span>
+            </mat-card-header>
+            <mat-card-content>
+                <div>
+                    <div class="produto-detalhe-info">
+                        <span class="label">Nome:</span>
+                        <span class="info">{{produto.nome}}</span>
+                    </div>
+                    <div class="produto-detalhe-info">
+                        <span class="label">Id do produto:</span>
+                        <span class="info">{{produto.id}}</span>
+                    </div>
+                    <div class="produto-detalhe-info">
+                        <span class="label">Preço:</span>
+                        <span class="info">{{produto.preco | currency}}</span>
+                    </div>
+                    <div class="produto-detalhe-info">
+                        <span class="label">Quantidade total:</span>
+                        <span class="info">{{produto.quantidades}}</span>
+                    </div>
+                    <div class="produto-detalhe-info">
+                        <span class="label">Quantidade com defeito:</span>
+                        <span class="info">{{produto.defeitos}}</span>
+                    </div>
+                    <div class="produto-detalhe-info">
+                        <span class="label">Quantidade disponível:</span>
+                        <span class="info">{{produto.disponivel}}</span>
+                    </div>
+                    <div class="produto-detalhe-info">
+                        <mat-expansion-panel [expanded]="true">
+                            <mat-expansion-panel-header>
+                                <span>
+                                    Vendas do produto
+                                </span>
+                            </mat-expansion-panel-header>
+                            <div *ngIf="vendas.length > 0">
+                                <data-table [columns]="vendasColumns" [data]="vendas"></data-table>
+                            </div>
+                            <div *ngIf="vendas.length === 0">
+                                <div class="produto-sem-vendas">Nenhuma venda registrada</div>
+                            </div>
+                        </mat-expansion-panel>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

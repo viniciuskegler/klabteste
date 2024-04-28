@@ -36,7 +36,24 @@ body {
   .mat-mdc-header-cell {
     border: solid 1px gray;
     border-radius: 2px;
+    text-align: center;
   }
+}
+
+.mat-drawer-inner-container {
+  background-color: #a1a47a73 !important;
+}
+
+mat-sidenav-container {
+  margin-top: 64px;
+}
+
+mat-drawer-container {
+  position: absolute;
+  top:0;
+  width: 100%;
+  bottom: 0;
+  overflow: auto;
 }
 
 .mdc-button.mat-primary:not(.mat-mdc-button-disabled) {

@@ -22,6 +22,12 @@ export interface DataTableFiltro {
 
 export type DataTableFiltroTipo = 'igual' | 'intervalo' | 'maior' | 'menor';
 
+export interface DataTableAction {
+  label: string;
+  icon: string;
+  action: Function;
+}
+
 @Component({
   selector: 'data-table-filtros',
   standalone: true,

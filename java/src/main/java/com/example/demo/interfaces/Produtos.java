@@ -8,5 +8,7 @@ public interface Produtos {
 
     public void insertProduct(Map<String, Object> product) throws RuntimeException;
 
-    public Object getAllProducts() throws RuntimeException ;
+    public Object getAllProducts() throws RuntimeException;
+
+    public Object getProductById(int id) throws RuntimeException;
 }
