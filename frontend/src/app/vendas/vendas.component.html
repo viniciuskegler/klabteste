@@ -1,14 +1,37 @@
-<div>
-    <mat-accordion>
-      <mat-expansion-panel [expanded]="true">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <span>Relatório de Vendas</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <ng-container *ngIf="vendasData">
-          <data-table [columns]="vendaColumns" [data]="vendasData"></data-table>
-        </ng-container>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
+<div class="vendas-container">
+  <mat-card class="vendas-relatorio-container">
+    <mat-card-header>
+      <span>Relatório de Vendas</span>
+    </mat-card-header>
+    <div class="vendas-relatorio-totalizadores">
+      <div class="vendas-relatorio-totalizador">
+        <span class="label">Numero total de vendas</span>
+        <span class="value">{{qtdeTotalVendas}}</span>
+      </div>
+      <div class="vendas-relatorio-totalizador">
+        <span class="label">Valor total de vendas</span>
+        <span class="value">{{vlTotalVendas | currency}}</span>
+      </div>
+      <div class="vendas-relatorio-totalizador">
+        <span class="label">Quantidade de produtos vendidos</span>
+        <span class="value">{{totalProdutos}}</span>
+      </div>
+      <div class="vendas-relatorio-totalizador">
+        <span class="label">Quantidade total de compradores</span>
+        <span class="value">{{compradoresDiferentes.length}}</span>
+      </div>
+    </div>
+  </mat-card>
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>Vendas</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-container *ngIf="vendasData">
+        <data-table [columns]="vendaColumns" [data]="vendasData"></data-table>
+      </ng-container>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

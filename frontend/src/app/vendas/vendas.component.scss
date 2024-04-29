@@ -1,9 +1,51 @@
 mat-expansion-panel {
-    .mat-expansion-panel-header-title {
-      justify-content: center;
-    }
+  .mat-expansion-panel-header-title {
+    justify-content: center;
+  }
+  span {
+    font-size: 20px;
+  }
+}
+
+.vendas-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.vendas-relatorio-container {
+  display: flex;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 0px 16px;
+  mat-card-header {
+    justify-content: center;
     span {
+      font-weight: bold;
       font-size: 24px;
     }
   }
-  
+}
+
+.vendas-relatorio-totalizadores {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 40px 0px;
+  justify-content: space-evenly;
+  border-top: 4px solid #8080804a;
+  border-bottom: 4px solid #8080804a;
+}
+
+.vendas-relatorio-totalizador {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0px;
+  .label {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .value {
+    font-size: 16px;
+  }
+}

@@ -124,7 +124,7 @@ public class ProdutoModel implements Produtos {
 
         Integer quantidades = (Integer) product.get("quantidades");
         //Não abre a conexão se o payload é invalido.
-        if (quantidades == null || quantidades <= 0) {
+        if (quantidades == null || quantidades < 0) {
             throw new BadRequestException("Payload inválido");
         }
         try {

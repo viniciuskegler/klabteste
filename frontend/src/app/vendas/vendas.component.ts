@@ -47,11 +47,29 @@ export class VendasComponent implements OnInit {
             tipoDado: 'currency',
         },
     ];
+    vlTotalVendas: number = 0;
+    totalProdutos: number = 0;
+    qtdeTotalVendas: number = 0;
+    compradoresDiferentes: string[] = [];
 
     ngOnInit(): void {
         this.vendasService.getAllVendas().subscribe({
-            next: vendas => this.vendasData = vendas,
+            next: vendas => {
+                this.vendasData = vendas;
+                this.atualizarTotalizadores();
+            },
             error: err => alert(err.error.message)
         })
+    }
+
+    atualizarTotalizadores() {
+        for (const venda of this.vendasData) {
+            this.vlTotalVendas += Number(venda.totalVenda);
+            this.totalProdutos += venda.quantidades;
+            this.qtdeTotalVendas += 1;
+            this.compradoresDiferentes
+                .map(c => c.toLowerCase()).includes(venda.comprador.toLowerCase()) ?
+                undefined : this.compradoresDiferentes.push(venda.comprador);
+        }
     }
 }
